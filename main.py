@@ -32,7 +32,7 @@ def analyze_solar_peak(data, duration=2):
     Simpler Algorithmus zur Peak-Suche.
     TODO: In WP 2 (Logic-Layer) verfeinern (Sliding Window mit Pandas).
     """
-    # Hier kommt deine Logik aus dem Pseudocode rein
+    # Hier kommt die Logik aus dem Pseudocode rein
     print(f"Analysiere Daten für ein Zeitfenster von {duration} Stunden...")
     pass
 
