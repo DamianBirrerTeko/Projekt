@@ -3,7 +3,7 @@ import os
 import pandas as pd
 from dotenv import load_dotenv
 
-# Lade Umgebungsvariablen aus einer .env Datei, aus Sicherheitsgründen
+# Lade Umgebungsvariablen aus einer .env Datei, aus Sicherheitsgründen.
 load_dotenv()
 
 # Konfiguration
