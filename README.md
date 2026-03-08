@@ -1,5 +1,9 @@
 Solar-Forecast & Load-Shifting Optimizer
 
+Nötige Anpassungen:
+.env datei muss lokal erstellt werden. Für den Inhalt kann die .env.example Datei verwendet werden.
+
+Übersicht
 1. Gewähltes Thema
 
 Entwicklung eines Python-basierten Dienstes zur Optimierung des Eigenverbrauchs von

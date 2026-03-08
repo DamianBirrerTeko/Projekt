@@ -5,15 +5,13 @@ from dotenv import load_dotenv
 
 # Lade Umgebungsvariablen aus einer .env Datei, aus Sicherheitsgründen.
 load_dotenv()
-
-# Konfiguration
-HA_URL = os.getenv("HA_URL", "http://homeassistant.local:8123")
+HA_URL = os.getenv("HA_URL")
 HA_TOKEN = os.getenv("HA_TOKEN")
-ENTITY_ID = "sensor.energy_production_forecast_hourly" # Beispiel-Entity
+SENSOR_NEXT_HOUR = os.getenv("SENSOR_NEXT_HOUR")
 
-def get_ha_data(entity_id):
-    """Holt die Prognosedaten von der Home Assistant API."""
-    url = f"{HA_URL}/api/states/{entity_id}"
+def get_ha_data(SENSOR_NEXT_HOUR):
+    # Holt die Prognosedaten von der Home Assistant API.
+    url = f"{HA_URL}/api/states/{SENSOR_NEXT_HOUR}"
     headers = {
         "Authorization": f"Bearer {HA_TOKEN}",
         "content-type": "application/json",
@@ -40,7 +38,7 @@ if __name__ == "__main__":
     if not HA_TOKEN:
         print("Fehler: Kein HA_TOKEN in der .env gefunden!")
     else:
-        forecast_data = get_ha_data(ENTITY_ID)
+        forecast_data = get_ha_data(SENSOR_NEXT_HOUR)
         if forecast_data:
             print(f"Daten erfolgreich empfangen: {forecast_data.get('state')} kWh")
             analyze_solar_peak(forecast_data)

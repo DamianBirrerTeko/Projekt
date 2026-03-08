@@ -4,8 +4,6 @@ from dotenv import load_dotenv
 
 # Lädt die Variablen aus der .env (siehe .env.example) Datei in das System
 load_dotenv()
-
-# Konfiguration, dazu greifen wir auf die Umgebungsvariablen zu
 HA_URL = os.getenv("HA_URL")
 HA_TOKEN = os.getenv("HA_TOKEN")
 
