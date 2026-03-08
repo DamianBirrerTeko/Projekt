@@ -1,0 +1,2 @@
+#Ignoriere alle .env Dateien, um sensible Informationen, wie z.B. API-Schlüssel, sicher zu speichern
+*.env
