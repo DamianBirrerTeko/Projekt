@@ -9,6 +9,7 @@ load_dotenv()
 HA_URL = os.getenv("HA_URL")
 HA_TOKEN = os.getenv("HA_TOKEN")
 SENSOR_NEXT_HOUR = os.getenv("SENSOR_NEXT_HOUR")
+SENSOR_ENTITY = os.getenv("SENSOR_NEXT_HOUR")
 
 def get_ha_data(SENSOR_NEXT_HOUR):
     # Holt die Prognosedaten von der Home Assistant API.
@@ -24,6 +25,30 @@ def get_ha_data(SENSOR_NEXT_HOUR):
         return response.json()
     except Exception as e:
         print(f"Fehler bei der API-Abfrage: {e}")
+        return None
+
+def get_ha_forecast(entity_id):
+    """
+    Fragt den Forecast über den Home Assistant Service 'get_forecast' ab.
+    Dies ist notwendig, da die Daten nicht mehr in den Attributen stehen.
+    """
+    # WICHTIG: Service-Calls nutzen den /services/ Endpunkt und POST
+    url = f"{HA_URL}/api/services/forecast_solar/get_forecast"
+    headers = {
+        "Authorization": f"Bearer {HA_TOKEN}",
+        "content-type": "application/json",
+    }
+    data = {"entity_id": entity_id}
+    
+    try:
+        response = requests.post(url, headers=headers, json=data)
+        response.raise_for_status()
+        
+        # Die Struktur der Antwort ist: { "entity_id": { "forecast": [...] } }
+        result = response.json()
+        return result.get(entity_id, {}).get('forecast', [])
+    except Exception as e:
+        print(f"Fehler beim Abrufen des Services: {e}")
         return None
 
 def find_best_time(forecast_json, duration_hours=2):
@@ -52,23 +77,43 @@ def find_best_time(forecast_json, duration_hours=2):
     
     return best_start_time
 
-def analyze_solar_peak(data, duration=2):
-    """
-    Simpler Algorithmus zur Peak-Suche.
-    TODO: In WP 2 (Logic-Layer) verfeinern (Sliding Window mit Pandas).
-    """
-    # Hier kommt die Logik aus dem Pseudocode rein
-    print(f"Analysiere Daten für ein Zeitfenster von {duration} Stunden...")
-    pass
+#def analyze_solar_peak(data, duration=2):
+#    """
+#    Simpler Algorithmus zur Peak-Suche.
+#    TODO: In WP 2 (Logic-Layer) verfeinern (Sliding Window mit Pandas).
+#    """
+#    # Hier kommt die Logik aus dem Pseudocode rein
+#    print(f"Analysiere Daten für ein Zeitfenster von {duration} Stunden...")
+#    pass
 
 
 
 if __name__ == "__main__":
-    if not HA_TOKEN:
-        print("Fehler: Kein HA_TOKEN in der .env gefunden!")
+    if not HA_TOKEN or not HA_URL:
+        print("Fehler: Konfiguration in .env unvollständig!")
     else:
-        forecast_data = get_ha_data(SENSOR_NEXT_HOUR)
+        print(f"Rufe Forecast für {SENSOR_ENTITY} ab...")
+        forecast_data = get_ha_forecast(SENSOR_ENTITY)
+        
         if forecast_data:
-            print(f"Daten erfolgreich empfangen: {forecast_data.get('state')} kWh")
-            analyze_solar_peak(forecast_data)
-            print(f"Beste Startzeit: {find_best_time(forecast_data)}")
+            print(f"Erfolgreich {len(forecast_data)} Datenpunkte empfangen.")
+            
+            # Berechnung für 2 Stunden Laufzeit
+            best_start = find_best_time(forecast_data, duration_hours=2)
+            
+            if best_start:
+                print(f"--- ERGEBNIS ---")
+                print(f"Beste Startzeit: {best_start.strftime('%d.%m.%Y um %H:%M')} Uhr")
+                print(f"----------------")
+        else:
+            print("Konnte keine Forecast-Liste extrahieren.")
+
+
+
+#        forecast_data = get_ha_data(SENSOR_NEXT_HOUR)
+#        # In der main.py unter: forecast_data = get_ha_data(ENTITY_ID)
+#        print("Verfügbare Attribute:", forecast_data.get('attributes').keys())
+#        if forecast_data:
+#            print(f"Daten erfolgreich empfangen: {forecast_data.get('state')} kWh")
+#           analyze_solar_peak(forecast_data)
+#            print(f"Beste Startzeit: {find_best_time(forecast_data)}")
