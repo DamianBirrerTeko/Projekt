@@ -12,6 +12,13 @@ HA_TOKEN = os.getenv("HA_TOKEN")
 SENSOR_NEXT_HOUR = os.getenv("SENSOR_NEXT_HOUR")
 SENSOR_ENTITY = os.getenv("SENSOR_NEXT_HOUR")
 
+# Setze die Parameter der PVA für die Prognose
+lat = 47.1660
+lon = 8.3969
+dec = 35
+az = -12
+kwp = 6.5
+
 def get_ha_data(SENSOR_NEXT_HOUR):
     # Holt die Prognosedaten von der Home Assistant API.
     url = f"{HA_URL}{SENSOR_NEXT_HOUR}"
@@ -83,8 +90,23 @@ if __name__ == "__main__":
     if not HA_TOKEN or not HA_URL:
         print("Fehler: Konfiguration in .env unvollständig!")
     else:
-        print(f"Rufe Forecast für {SENSOR_ENTITY} ab...")
-        forecast_data = get_ha_forecast(SENSOR_ENTITY)
+        print(f"Standard Parameter: LAT={lat}, LON={lon}, DEC={dec}, AZ={az}, KWP={kwp}")
+        auswahl = input("Möchten Sie die Standardwerte verwenden? (j/n): ").lower()
+
+        if auswahl == 'n':
+            print("\nBitte geben Sie die neuen Werte ein (Enter für Standardwert):")
+            # Falls der User nur Enter drückt, behalten wir den Standardwert bei (or lat)
+            lat = input(f"Breitengrad [{lat}]: ") or lat
+            lon = input(f"Längengrad [{lon}]: ") or lon
+            dec = input(f"Neigung (0-90) [{dec}]: ") or dec
+            az = input(f"Ausrichtung (-180 bis 180) [{az}]: ") or az
+            kwp = input(f"Leistung in kWp [{kwp}]: ") or kwp
+            print("Temporäre Werte übernommen.\n")
+            print(f"Verwende: LAT={lat}, LON={lon}, DEC={dec}, AZ={az}, KWP={kwp}")
+        else:
+            print("Standardwerte werden verwendet.\n")
+        print(f"Rufe Prognose von forecast.solar ab...")
+        forecast_data = get_direct_solar_forecast(lat, lon, dec, az, kwp)
         
         if forecast_data:
             print(f"Erfolgreich {len(forecast_data)} Datenpunkte empfangen.")

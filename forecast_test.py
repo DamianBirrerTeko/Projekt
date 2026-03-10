@@ -1,11 +1,11 @@
 from datetime import datetime
 from forecast import get_direct_solar_forecast
 
-lat = 47.2345
-lon = 8.5678
+lat = 47.1660
+lon = 8.3969
 dec = 35
-az = 0
-kwp = 10.5
+az = -12
+kwp = 6.5
 
 print(f"Test-Parameter: LAT={lat}, LON={lon}, KWP={kwp}")
     
