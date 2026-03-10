@@ -3,6 +3,7 @@ import os
 import pandas as pd
 from datetime import timedelta
 from dotenv import load_dotenv
+from forecast import get_direct_solar_forecast
 
 # Lade Umgebungsvariablen aus einer .env Datei, aus Sicherheitsgründen.
 load_dotenv()
@@ -77,16 +78,6 @@ def find_best_time(forecast_json, duration_hours=2):
     
     return best_start_time
 
-#def analyze_solar_peak(data, duration=2):
-#    """
-#    Simpler Algorithmus zur Peak-Suche.
-#    TODO: In WP 2 (Logic-Layer) verfeinern (Sliding Window mit Pandas).
-#    """
-#    # Hier kommt die Logik aus dem Pseudocode rein
-#    print(f"Analysiere Daten für ein Zeitfenster von {duration} Stunden...")
-#    pass
-
-
 
 if __name__ == "__main__":
     if not HA_TOKEN or not HA_URL:
@@ -107,13 +98,3 @@ if __name__ == "__main__":
                 print(f"----------------")
         else:
             print("Konnte keine Forecast-Liste extrahieren.")
-
-
-
-#        forecast_data = get_ha_data(SENSOR_NEXT_HOUR)
-#        # In der main.py unter: forecast_data = get_ha_data(ENTITY_ID)
-#        print("Verfügbare Attribute:", forecast_data.get('attributes').keys())
-#        if forecast_data:
-#            print(f"Daten erfolgreich empfangen: {forecast_data.get('state')} kWh")
-#           analyze_solar_peak(forecast_data)
-#            print(f"Beste Startzeit: {find_best_time(forecast_data)}")
