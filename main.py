@@ -19,46 +19,6 @@ dec = 35
 az = -12
 kwp = 6.5
 
-def get_ha_data(SENSOR_NEXT_HOUR):
-    # Holt die Prognosedaten von der Home Assistant API.
-    url = f"{HA_URL}{SENSOR_NEXT_HOUR}"
-    headers = {
-        "Authorization": f"Bearer {HA_TOKEN}",
-        "content-type": "application/json",
-    }
-    
-    try:
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()
-        return response.json()
-    except Exception as e:
-        print(f"Fehler bei der API-Abfrage: {e}")
-        return None
-
-def get_ha_forecast(entity_id):
-    """
-    Fragt den Forecast über den Home Assistant Service 'get_forecast' ab.
-    Dies ist notwendig, da die Daten nicht mehr in den Attributen stehen.
-    """
-    # WICHTIG: Service-Calls nutzen den /services/ Endpunkt und POST
-    url = f"{HA_URL}/api/services/forecast_solar/get_forecast"
-    headers = {
-        "Authorization": f"Bearer {HA_TOKEN}",
-        "content-type": "application/json",
-    }
-    data = {"entity_id": entity_id}
-    
-    try:
-        response = requests.post(url, headers=headers, json=data)
-        response.raise_for_status()
-        
-        # Die Struktur der Antwort ist: { "entity_id": { "forecast": [...] } }
-        result = response.json()
-        return result.get(entity_id, {}).get('forecast', [])
-    except Exception as e:
-        print(f"Fehler beim Abrufen des Services: {e}")
-        return None
-
 def find_best_time(forecast_json, duration_hours=2):
     # Berechnet das Zeitfenster mit dem höchsten Ertrag.
     # Extrahiere die stündlichen Daten aus den Attributen
