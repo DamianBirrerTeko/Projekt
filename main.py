@@ -9,15 +9,15 @@ from forecast import get_direct_solar_forecast
 load_dotenv()
 HA_URL = os.getenv("HA_URL")
 HA_TOKEN = os.getenv("HA_TOKEN")
-SENSOR_NEXT_HOUR = os.getenv("SENSOR_NEXT_HOUR")
-SENSOR_ENTITY = os.getenv("SENSOR_NEXT_HOUR")
+# SENSOR_NEXT_HOUR = os.getenv("SENSOR_NEXT_HOUR")
+# SENSOR_ENTITY = os.getenv("SENSOR_NEXT_HOUR")
 
 # Setze die Parameter der PVA für die Prognose
 lat = 47.1660
 lon = 8.3969
 dec = 35
 az = -12
-kwp = 6.5
+kwp = 6.64
 
 def find_best_time(forecast_json, duration_hours=2):
     # Berechnet das Zeitfenster mit dem höchsten Ertrag.
