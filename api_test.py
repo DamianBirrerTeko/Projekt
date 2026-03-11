@@ -8,7 +8,7 @@ HA_URL = os.getenv("HA_URL")
 HA_TOKEN = os.getenv("HA_TOKEN")
 
 #Kann durch eine andere Entity ID ersetzt werden, um einen anderen Sensor abzufragen
-ENTITY_ID = "sensor.zd_power_switch_tv_leistung" 
+ENTITY_ID = "sensor.shellypro3em_total_active_power" 
 
 headers = {
     "Authorization": f"Bearer {HA_TOKEN}",
@@ -33,6 +33,3 @@ def test_ha_api():
             
     except Exception as e:
         print(f"Ein Fehler ist aufgetreten: {e}")
-
-if __name__ == "__main__":
-    test_ha_api()
