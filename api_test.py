@@ -15,21 +15,21 @@ headers = {
     "content-type": "application/json",
 }
 
-def test_ha_api():
-    try:
-        # Anfrage an den spezifischen Sensor senden
-        response = requests.get(HA_URL + ENTITY_ID, headers=headers)
+
+try:
+    # Anfrage an den spezifischen Sensor senden
+    response = requests.get(HA_URL + ENTITY_ID, headers=headers)
+    
+    # Prüfen, ob die Anfrage erfolgreich war (Status Code 200)
+    if response.status_code == 200:
+        data = response.json()
+        state = data.get('state')
+        unit = data.get('attributes', {}).get('unit_of_measurement', '')
         
-        # Prüfen, ob die Anfrage erfolgreich war (Status Code 200)
-        if response.status_code == 200:
-            data = response.json()
-            state = data.get('state')
-            unit = data.get('attributes', {}).get('unit_of_measurement', '')
-            
-            print(f"Erfolg! Der Wert von {ENTITY_ID} ist: {state} {unit}")
-        else:
-            print(f"Fehler beim Abrufen: Status Code {response.status_code}")
-            print(response.text)
-            
-    except Exception as e:
-        print(f"Ein Fehler ist aufgetreten: {e}")
+        print(f"Erfolg! Der Wert von {ENTITY_ID} ist: {state} {unit}")
+    else:
+        print(f"Fehler beim Abrufen: Status Code {response.status_code}")
+        print(response.text)
+        
+except Exception as e:
+    print(f"Ein Fehler ist aufgetreten: {e}")
