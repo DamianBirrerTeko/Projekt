@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 HA_URL = os.getenv("HA_URL")
 HA_TOKEN = os.getenv("HA_TOKEN")
+HA_HELPER = os.getenv("HA_HELPER")
 
 def send_to_homeassistant(start_time):
     # Übermittelt den Zeitpunkt an den Home Assistant Helfer.
@@ -15,7 +16,7 @@ def send_to_homeassistant(start_time):
     }
     
     payload = {
-        "entity_id": "input_datetime.solar_optimierter_start",
+        "entity_id": f"{HA_HELPER}",
         "datetime": start_time.strftime('%Y-%m-%d %H:%M:%S')
     }
     
