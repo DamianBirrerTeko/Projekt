@@ -1,8 +1,18 @@
 # Solar-Forecast & Load-Shifting Optimizer
 
 ## Nötige Anpassungen
-- Die .env Datei muss lokal erstellt werden. Diese Dateien werden für den HA Zugang verwendet. Als Beispiel kann die .env.example verwendet werden.
-- Bei Bedarf können die Attribute der Solaranlage im Skript angepasst werden. Wenn dies nich gemacht wird werden die Standard Werte verwendet.
+- Die .env Datei muss lokal erstellt werden. Es sind Infos zur HA Verbindung sowie der PVA enthalten. Siehe .env.example. 
+  - Angaben zum Home Assistant:
+    - HA_URL: Muss die IP Adresse der HA Installation beinhalten.
+    - HA_TOKEN: Muss das im HA erstellte Zugangstoken enthalten.
+  - Angaben zur PVA:
+    - lat: Breitegrad der PVA
+    - lon: Längengrad der PVA
+    - dec: Neigungswinkel der PVA$
+    - az: Azimuth der PVA (180° bis -180°)
+    - kwp: Die Peakleistung der PVA in kW 
+- Die Angaben zur PVA sind optional. Wenn keine Angaben in der .env stehen werden die Standard Werte verwendet.
+- Die PVA Angaben können auch bei der Ausführung temporär angepasst werden.
 
 ## Übersicht
 ### 1. Gewähltes Thema
