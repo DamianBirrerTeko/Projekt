@@ -10,7 +10,7 @@
   - Angaben zur PVA:
     - lat: Breitegrad der PVA
     - lon: Längengrad der PVA
-    - dec: Neigungswinkel der PVA$
+    - dec: Neigungswinkel der PVA
     - az: Azimuth der PVA (180° bis -180°)
     - kwp: Die Peakleistung der PVA in kW 
 - Die Angaben zur PVA sind optional. Wenn keine Angaben in der .env stehen werden die Standard Werte verwendet.
