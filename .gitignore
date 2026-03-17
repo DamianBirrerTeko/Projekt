@@ -1,2 +1,6 @@
 #Ignoriere alle .env Dateien, um sensible Informationen, wie z.B. API-Schlüssel, sicher zu speichern
 *.env
+
+#Ignoriere alle .pyc Dateien und den __pycache__ Ordner, um unnötige Dateien zu vermeiden
+*.pyc
+__pycache__/   
