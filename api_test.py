@@ -18,7 +18,7 @@ headers = {
 
 try:
     # Anfrage an den spezifischen Sensor senden
-    response = requests.get(HA_URL + ENTITY_ID, headers=headers)
+    response = requests.get(f"{HA_URL}/api/states/{ENTITY_ID}", headers=headers)
     
     # Prüfen, ob die Anfrage erfolgreich war (Status Code 200)
     if response.status_code == 200:
