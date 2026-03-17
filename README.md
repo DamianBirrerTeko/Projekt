@@ -1,6 +1,7 @@
 # Solar-Forecast & Load-Shifting Optimizer
 
 ## Nötige Anpassungen
+- Installation der benötigten Bibliotheken (z.B. pip install pandas requests python-dotenv)
 - Für die Übertragung der ermittelten Zeit muss im Home Assistant ein "Zeitpunkt-Eingabe" Helfer erstellt werden.
 - Die .env Datei muss lokal erstellt werden. Es sind Infos zur HA Verbindung sowie der PVA enthalten. Siehe .env.example. 
   - Angaben zum Home Assistant:
