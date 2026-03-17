@@ -17,30 +17,10 @@
 - Die Angaben zur PVA sind optional. Wenn keine Angaben in der .env stehen werden die Standard Werte verwendet.
 - Die PVA Angaben können auch bei der Ausführung temporär angepasst werden.
 
-## Übersicht
-### 1. Gewähltes Thema
-Entwicklung eines Python-basierten Dienstes zur Optimierung des Eigenverbrauchs von
-Photovoltaikanlagen durch intelligente Steuerung von Haushaltsgeräten via Home
-Assistant.
-
-### 2. Kurze Problemstellung
-PV-Anlagen liefern unregelmäßig Energie. Ohne intelligente Steuerung werden
-Großverbraucher oft dann genutzt, wenn nicht genügend solarer Ertrag vorhanden ist,
-was teuren Netzbezug zur Folge hat. Bestehende Standard-Automatisierungen sind oft
-zu starr und berücksichtigen keine Prognosedaten.
-
-### 3. User Stories & Feature
-- User Story 1: Als PV-Besitzer möchte ich, dass meine Spülmaschine automatisch im sonnigsten Zeitfenster des Tages läuft, um Stromkosten zu sparen.
-- User Story 2: Als Administrator möchte ich die PVA-Parameter (Neigung, Ausrichtung) temporär überschreiben können, um zu simulieren, wie sich eine Erweiterung meiner Anlage auf die Startzeit-Vorschläge auswirken würde.
-- User Story 3: Als Home Assistant User möchte ich, dass der ermittelte Startwert an Home Assistant übermittelt wird, damit der Ideale Startzeitpunkt für HA Automationen verwendet werden kann. 
-- Feature A: API-Anbindung an Home Assistant zur Abfrage von Forecast-Daten.
-- Feature B: Python-Algorithmus zur Identifikation des optimalen Zeitfensters (Peak-
-Suche).
-- Feature C: Automatisierte Schaltung von Entitäten (Smart Plugs) über die HA-REST-
-API.
-
-### 4. Meilenstein- und Paketplanung
-1. Setup der Entwicklungsumgebung und API-Konnektivität.
-2. Entwicklung des Kern-Algorithmus in Python.
-3. Integration in Home Assistant & Dashboard-Erstellung.
-4. Finales Testing und Dokumentation.
+## Funktionsweise
+Der Kern des Programms ist ein Predictive Load-Shifting Algorithmus. Anstatt Geräte nur bei aktuellem Sonnenschein zu starten, blickt das Programm in die Zukunft:
+1. Datenbeschaffung: Das Skript ruft stündliche Ertragsprognosen direkt von der Forecast.Solar API ab.
+2. Zukunfts-Filter: Um Fehlplanungen zu vermeiden, werden alle Prognosewerte, die in der Vergangenheit liegen, sofort gefiltert.
+3. Sliding Window Algorithmus: Das Programm legt ein "Fenster" (2 Stunden) über die kommenden 48 Stunden. Es verschiebt dieses Fenster Schritt für Schritt und berechnet die Summe der erwarteten Sonnenenergie in diesem Zeitraum.
+4. Peak-Detektion: Der Zeitpunkt mit der höchsten kumulierten Energiemenge wird als optimaler Startzeitpunkt identifiziert.
+5. Threshold-Check: Liegt die Energie im besten Fenster unter einem Sicherheits-Schwellenwert (2500 Wh), erfolgt eine Warnung, da sich der Betrieb rein über Solar evtl. nicht lohnt.
