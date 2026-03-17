@@ -1,6 +1,4 @@
 import os
-import pandas as pd
-from datetime import timedelta
 from dotenv import load_dotenv
 from forecast import get_direct_solar_forecast, find_best_time
 from send_to_ha import send_to_homeassistant
@@ -26,18 +24,34 @@ if __name__ == "__main__":
     auswahl = input("Möchten Sie die Standardwerte verwenden? (j/n): ").lower()
 
     if auswahl == 'n':
-        print("\nBitte geben Sie die neuen Werte ein (Enter für Standardwert):")
+        korrekt = False
+        while not korrekt:
+            print("\nBitte geben Sie die neuen Werte ein (Enter für Standardwert):")
 
-        # Falls der User nur Enter drückt, wird der Standardwert behalten (or lat)
-        lat = input(f"Breitengrad [{lat}]: ") or lat
-        lon = input(f"Längengrad [{lon}]: ") or lon
-        dec = input(f"Neigung (0-90) [{dec}]: ") or dec
-        az = input(f"Ausrichtung (-180 bis 180) [{az}]: ") or az
-        kwp = input(f"Leistung in kWp [{kwp}]: ") or kwp
+            # Falls der User nur Enter drückt, wird der Standardwert behalten (or lat)
+            lat = input(f"Breitengrad [{lat}]: ") or lat
+            lon = input(f"Längengrad [{lon}]: ") or lon
+            dec = input(f"Neigung (0-90) [{dec}]: ") or dec
+            az = input(f"Ausrichtung (-180 bis 180) [{az}]: ") or az
+            kwp = input(f"Leistung in kWp [{kwp}]: ") or kwp
 
-        # Rückmeldung der übernommenen Werte
-        print("Temporäre Werte übernommen.\n")
-        print(f"Verwende: LAT={lat}, LON={lon}, DEC={dec}, AZ={az}, KWP={kwp}")
+            # Anzeige der Werte zur Kontrolle
+            print("\n--------------------------------------")
+            print("Zusammenfassung der eingegebenen Parameter:")
+            print(f"  Breitengrad:  {lat}")
+            print(f"  Längengrad:   {lon}")
+            print(f"  Neigung:      {dec}°")
+            print(f"  Ausrichtung:  {az}°")
+            print(f"  Leistung:     {kwp} kWp")
+            print("--------------------------------------\n")
+
+            # Abfrage ob die Werte korrekt sind
+            bestaetigung = input("Sind diese Werte korrekt? (j/n): ").lower()
+            if bestaetigung != 'n':
+                korrekt = True
+                print("Werte übernommen.\n")
+            else:
+                print("Eingabe wird wiederholt...")
 
     else:
         print("\nStandardwerte werden verwendet.")
@@ -62,12 +76,13 @@ if __name__ == "__main__":
     else:
         print("Konnte keine Forecast-Liste extrahieren.")
 
-    auswahl_ha = input("Möchten Sie das Ergebnis an Home Assistant senden? (j/n): ").lower()
-
+    # Überprüfen, ob Home Assistant Parameter gesetzt sind, bevor das Ergebnis gesendet wird
     if not HA_TOKEN or not HA_URL or not HA_HELPER:
         print("\nDie Ergebnisse können nicht an Home Assistant gesendet werden.\nDie .env Daten sind unvollständig!\n")
-    
+
+    # Abfrage, ob das Ergebnis an Home Assistant gesendet werden soll
     else:
+        auswahl_ha = input("Möchten Sie das Ergebnis an Home Assistant senden? (j/n): ").lower()
         if auswahl_ha == 'n':
             print("Ergebnis wird nicht gesendet.")
         else:
