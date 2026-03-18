@@ -20,6 +20,7 @@ def send_to_homeassistant(start_time):
         "datetime": start_time.strftime('%Y-%m-%d %H:%M:%S')
     }
     
+    # Überprüft ob die Übermittlung erfolgreich war und gibt entsprechende Meldungen aus.
     try:
         response = requests.post(url, headers=headers, json=payload)
         if response.status_code == 200:
