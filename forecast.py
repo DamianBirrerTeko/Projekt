@@ -55,8 +55,10 @@ def find_best_time(forecast_list, duration_hours=2):
     best_start_time = best_slot_end - timedelta(hours=duration_hours - 1)
     
     if max_energy <= 2500:
-        print(f"\nWarnung: Maximale prognostizierte Energieproduktion von {max_energy:.2f} Wh ist sehr niedrig. \nMöglicherweise schlechte Wetterbedingungen oder Fehler in der Prognose.\n")
+        print(f"\n----------------------------------------------------------------")
+        print(f"Warnung: Maximale prognostizierte Energieproduktion von {max_energy:.2f} Wh ist sehr niedrig. \nMöglicherweise schlechte Wetterbedingungen oder Fehler in der Prognose.\n")
     else:
-        print(f"\nVoraussichtliche Energieproduktion in diesem Fenster ({duration_hours}h): {max_energy:.2f} Wh")
+        print(f"\n----------------------------------------------------------------")
+        print(f"Voraussichtliche Energieproduktion in diesem Fenster ({duration_hours}h): {max_energy:.2f} Wh")
     
     return best_start_time
