@@ -15,7 +15,13 @@
     - az: Azimuth der PVA (180° bis -180°)
     - kwp: Die Peakleistung der PVA in kW 
 - Die Angaben zur PVA sind optional. Wenn keine Angaben in der .env stehen werden die Standard Werte verwendet.
-- Die PVA Angaben können auch bei der Ausführung temporär angepasst werden.
+- Die PVA Angaben können auch bei der Interaktiven Ausführung temporär angepasst werden.
+
+## Interaktive und Automatische Ausführung
+### Interaktive Ausführung
+Um das Programm mit interaktiven Benutzer Inputs auszuführen, kann das **_main.py_** ausgeführt werden.
+### Automatische Ausführung
+Das **_autostart.py_** kann verwendet werden um die Prognose und anschliessende Übermittlung an den Home Assistant zu auomatisieren. Hier sind keine Benutzer Inputs nötig.
 
 ## Funktionsweise
 Der Kern des Programms ist ein Predictive Load-Shifting Algorithmus. Anstatt Geräte nur bei aktuellem Sonnenschein zu starten, blickt das Programm in die Zukunft:
