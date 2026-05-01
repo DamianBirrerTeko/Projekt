@@ -19,9 +19,9 @@
 
 ## Interaktive und Automatische Ausführung
 ### Interaktive Ausführung
-Um das Programm mit interaktiven Benutzer Inputs auszuführen, kann das **_main.py_** ausgeführt werden.
+**_main.py:_** Kann verwendet werden um das Programm mit Interaktiven Benutzer Inputs zu verwenden. Es kann auch ohne Home Assistant benutzt werden, da die Datenübermittlung optional ist.
 ### Automatische Ausführung
-Das **_autostart.py_** kann verwendet werden um die Prognose und anschliessende Übermittlung an den Home Assistant zu auomatisieren. Hier sind keine Benutzer Inputs nötig.
+**_autostart.py:_** Kann verwendet werden um die Prognose und anschliessende Übermittlung an den Home Assistant zu auomatisieren. Hier sind keine Benutzer Inputs möglich und eine Verbindung zum Home Assistant wird zwingend benötigt.
 
 ## Funktionsweise
 Der Kern des Programms ist ein Predictive Load-Shifting Algorithmus. Anstatt Geräte nur bei aktuellem Sonnenschein zu starten, blickt das Programm in die Zukunft:
